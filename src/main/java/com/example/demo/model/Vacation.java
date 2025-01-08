@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
@@ -27,40 +26,62 @@ public class Vacation {
     @OneToMany(mappedBy = "vacationEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserVacationsList> userVacationsList;
 
-    // Getters, Setters and Constructors
     public Vacation() {
-
     }
 
-    public Vacation(String destination, String start, String end, String notes, List<UserVacationsList> userVacationsList) {
+    public Vacation(String destination, String startDate, String endDate, String notes) {
         this.destination = destination;
-        this.startDate = start;
-        this.endDate = end;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.notes = notes;
     }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getDestination() { return destination; }
-    public void setDestination(String destination) { this.destination = destination; }
-
-    public String getNotes() {
-        return notes;
+    public String getDestination() {
+        return destination;
     }
-    public void setNotes(String notes) {}
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 
     public String getStartDate() {
         return startDate;
     }
-    public void setStartDate(String startDate) {}
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
 
     public String getEndDate() {
         return endDate;
     }
-    public void setEndDate(String endDate) {}
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public List<UserVacationsList> getUserVacationsList() {
+        return userVacationsList;
+    }
+
+    public void setUserVacationsList(List<UserVacationsList> userVacationsList) {
+        this.userVacationsList = userVacationsList;
+    }
 }

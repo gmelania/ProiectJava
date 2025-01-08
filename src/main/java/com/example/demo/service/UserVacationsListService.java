@@ -11,14 +11,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserVacationsListService {
 
-    @Autowired
     private UserVacationsListRepository userVacationsListRepository;
+
+    public UserVacationsListService(UserVacationsListRepository userVacationsListRepository) {
+        this.userVacationsListRepository = userVacationsListRepository;
+    }
 
     public void addUserVacationList(UserVacationsList userVacationList) {
         userVacationsListRepository.save(userVacationList);
     }
 
     public List<UserVacationsList> getUserVacationListsByUser(Users user) {
-        return userVacationsListRepository.findByUser(user);
+        return userVacationsListRepository.findByUserEntity(user);
     }
 }

@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface UserVacationsListRepository extends JpaRepository<UserVacationsList, Long> {
 
-    List<UserVacationsList> findByUser(Users user);
+    List<UserVacationsList> findByUserEntity(Users user);
 }

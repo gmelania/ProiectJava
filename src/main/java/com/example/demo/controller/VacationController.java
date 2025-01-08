@@ -17,7 +17,7 @@ import java.util.List;
 @Controller
 public class VacationController {
 
-    @Autowired
+    /*@Autowired
     private VacationService vacationService;
 
     @Autowired
@@ -65,6 +65,6 @@ public class VacationController {
         userVacationsListService.addUserVacationList(userVacationsList);
 
         return "redirect:/my-vacations";
-    }
+    }*/
 
 }

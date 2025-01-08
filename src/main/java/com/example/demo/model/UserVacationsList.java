@@ -11,11 +11,11 @@ public class UserVacationsList {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userEntity")
+    @JoinColumn(name = "user_id", nullable = false)
     private Users userEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vacationEntity")
+    @JoinColumn(name = "vacation_id", nullable = false)
     private Vacation vacationEntity;
 
     @Column(name = "startDate")
@@ -30,22 +30,23 @@ public class UserVacationsList {
     @Column(name = "visited")
     private boolean visited;
 
-    // Getters, Setters and Constructors
-    public UserVacationsList() { }
+    public UserVacationsList() {
+    }
 
-    public UserVacationsList(Users userEntity, Vacation vacation, String startDate, String endDate, String notes, boolean visited) {
-//      this.userId = userId;
+    public UserVacationsList(Users userEntity, Vacation vacationEntity, String startDate, String endDate, String notes, boolean visited) {
         this.userEntity = userEntity;
-        this.vacationEntity = vacation;
+        this.vacationEntity = vacationEntity;
         this.startDate = startDate;
         this.endDate = endDate;
         this.notes = notes;
         this.visited = visited;
     }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -53,20 +54,23 @@ public class UserVacationsList {
     public Users getUserEntity() {
         return userEntity;
     }
+
     public void setUserEntity(Users userEntity) {
-        this.userEntity = this.userEntity;
+        this.userEntity = userEntity;
     }
 
     public Vacation getVacationEntity() {
         return vacationEntity;
     }
+
     public void setVacationEntity(Vacation vacationEntity) {
-        this.vacationEntity = this.vacationEntity;
+        this.vacationEntity = vacationEntity;
     }
 
     public String getStartDate() {
         return startDate;
     }
+
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
@@ -74,6 +78,7 @@ public class UserVacationsList {
     public String getEndDate() {
         return endDate;
     }
+
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
@@ -81,6 +86,7 @@ public class UserVacationsList {
     public String getNotes() {
         return notes;
     }
+
     public void setNotes(String notes) {
         this.notes = notes;
     }
@@ -88,6 +94,7 @@ public class UserVacationsList {
     public boolean isVisited() {
         return visited;
     }
+
     public void setVisited(boolean visited) {
         this.visited = visited;
     }
