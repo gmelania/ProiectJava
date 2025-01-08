@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "Vacation")
@@ -9,39 +8,45 @@ public class Vacation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Column(name = "destination")
+    @Column(name = "destination", nullable = false)
     private String destination;
 
-    @Column(name = "startDate")
+    @Column(name = "start_Date")
     private String startDate;
 
-    @Column(name = "endDate")
+    @Column(name = "end_Date")
     private String endDate;
 
     @Column(name = "notes")
     private String notes;
 
-    @OneToMany(mappedBy = "vacationEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserVacationsList> userVacationsList;
+    @Column(name = "visited")
+    private boolean visited;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
 
     public Vacation() {
     }
 
-    public Vacation(String destination, String startDate, String endDate, String notes) {
+    public Vacation(String destination, String startDate, String endDate, String notes, boolean visited, Users user) {
         this.destination = destination;
         this.startDate = startDate;
         this.endDate = endDate;
         this.notes = notes;
+        this.visited = visited;
+        this.user = user;
     }
 
     // Getters and Setters
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -77,11 +82,19 @@ public class Vacation {
         this.notes = notes;
     }
 
-    public List<UserVacationsList> getUserVacationsList() {
-        return userVacationsList;
+    public boolean isVisited() {
+        return visited;
     }
 
-    public void setUserVacationsList(List<UserVacationsList> userVacationsList) {
-        this.userVacationsList = userVacationsList;
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
     }
 }

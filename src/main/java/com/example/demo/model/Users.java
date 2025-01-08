@@ -11,10 +11,10 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "nume")
@@ -29,8 +29,8 @@ public class Users {
     @Column(name = "telefon")
     private String telefon;
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserVacationsList> userVacationsList;
+    //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    //private List<Vacation> vacations;
 
     public Users() {
     }
@@ -101,11 +101,11 @@ public class Users {
         this.telefon = telefon;
     }
 
-    public List<UserVacationsList> getUserVacationsList() {
-        return userVacationsList;
+    /*public List<Vacation> getVacations() {
+        return vacations;
     }
 
-    public void setUserVacationsList(List<UserVacationsList> userVacationsList) {
-        this.userVacationsList = userVacationsList;
-    }
+    public void setVacations(List<Vacation> vacations) {
+        this.vacations = vacations;
+    }*/
 }

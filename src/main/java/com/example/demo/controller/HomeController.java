@@ -13,15 +13,6 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/register")
-    public String showRegisterForm() {
-        return "register";
-    }
 
 //    @GetMapping("/vacations")
 //    public String vacations() {

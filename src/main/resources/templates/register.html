@@ -2,67 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Register</title>
 </head>
-
 <body>
-    <h2>Register</h2>
-    <div class="container">
-        <form action="/register" method="post">
-            <!-- Email Field -->
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+<h2>Register</h2>
+<div class="container">
+    <form th:action="@{/register}" method="post">
+        <!-- Email Field -->
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
-            <!-- Password Field -->
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <!-- Password Field -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
 
-            <!-- Nume Field -->
-            <label for="nume">Last name:</label>
-            <input type="text" id="nume" name="nume" placeholder="Enter your last name" required>
+        <!-- Nume Field -->
+        <label for="nume">Last name:</label>
+        <input type="text" id="nume" name="nume"  placeholder="Enter your last name" required>
 
-            <!-- Prenume Field -->
-            <label for="prenume">First name:</label>
-            <input type="text" id="prenume" name="prenume" placeholder="Enter your first name" required>
+        <!-- Prenume Field -->
+        <label for="prenume">First name:</label>
+        <input type="text" id="prenume" name="prenume"  placeholder="Enter your first name" required>
 
-            <!-- Tara Field -->
-            <label for="tara">Country:</label>
-            <input type="text" id="tara" name="tara" placeholder="Enter your country" required>
+        <!-- Tara Field -->
+        <label for="tara">Country:</label>
+        <input type="text" id="tara" name="tara"  placeholder="Enter your country" required>
 
-            <!-- Telefon Field -->
-            <label for="telefon">Phone:</label>
-            <input type="text" id="telefon" name="telefon" placeholder="Enter your phone number" required>
+        <!-- Telefon Field -->
+        <label for="telefon">Phone:</label>
+        <input type="text" id="telefon" name="telefon"  placeholder="Enter your phone number" required>
 
-            <!-- Register Button -->
-            <input type="submit" value="Register">
-        </form>
-        <p>Already have an account? Log in <a href="/login">here</a>.</p>
-    </div>
+        <!-- Register Button -->
+        <input type="submit" value="Register">
+    </form>
 
-    <div th:if="${param.error == 'email'}">
-        <p class="error">This email is already in use. Please try another one.</p>
-    </div>
+    <p th:if="${error}" class="error" th:text="${error}"></p>
+    <p th:if="${success}" style="color: green;" th:text="${success}"></p>
 
-    <div th:if="${param.error == 'general'}">
-        <p class="error">There was an issue creating your account. Please try again.</p>
-    </div>
-
-    <div th:if="${param.success}">
-        <h1 style="color: skyblue;">Account created successfully</h1>
-        <p>To activate it, you will be redirected to the login page in <span id="countdown">10</span> seconds.</p>
-        <a href="/login" class="button">Login</a>
-        <script>
-            const countdownElement = document.getElementById('countdown');
-            let countdown = 10;
-            setInterval(function () {
-                countdown--;
-                countdownElement.textContent = countdown.toString();
-                if (countdown <= 0) {
-                    window.location.href = "/login";
-                }
-            }, 1000); // Update every second
-        </script>
-    </div>
-
+    <p>Already have an account? Log in <a th:href="@{/login}">here</a>.</p>
+</div>
 </body>
 </html>

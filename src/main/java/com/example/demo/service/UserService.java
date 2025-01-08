@@ -31,8 +31,16 @@ public class UserService {
         return !users.isEmpty(); // returneaza 1 daca lista de useri cu acelasi email nu e empty
     }
 
+    // call repo to rescue user by email
+    public Users getUserByEmail(String email) {
+        List<Users> users = usersRepository.findByEmail(email);
+        return users.isEmpty() ? null : users.get(0);
+    }
+
     // call repo to line up all users
     public List<Users> getAllUsers() {
         return usersRepository.findAll();
     }
+
+
 }

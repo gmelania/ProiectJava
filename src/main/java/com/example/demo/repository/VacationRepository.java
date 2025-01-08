@@ -1,8 +1,18 @@
 package com.example.demo.repository;
 
+import com.example.demo.model.Users;
 import com.example.demo.model.Vacation;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface VacationRepository extends JpaRepository<Vacation, Long> {
-    
+import java.util.List;
+
+@Repository
+public interface VacationRepository extends JpaRepository<Vacation, Integer> {
+
+    List<Vacation> findByUserId(int userId);
+
+    List<Vacation> findByVisited(boolean visited);
+
+    List<Vacation> findByUserIdAndVisited(int userId, boolean visited);
 }
