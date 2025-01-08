@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!--
+    Shows all vacations in a user's UserVacationsList table.
+-->
+
+    <head>
+        <meta charset="utf-8">
+        <link th:href="@{styles/style.css}" rel="stylesheet" />
+        <title>My Vacations</title>
+    </head>
+
+    <body>
+        <h2>Your Vacations</h2>
+        <div class="container">
+            <form action="/my-vacations" method="post">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" placeholder="Enter your location" required>
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" required>
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate" required>
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes" placeholder="Enter your notes"></textarea>
+                <label for="visited">Visited:</label>
+                <input type="checkbox" id="visited" name="visited">
+                <input type="submit" value="Add Vacation">
+            </form>
+            <h3>Your Vacations:</h3>
+            <ul>
+                <li th:each="userVacationList : ${userVacationLists}">
+                    <span th:text="${userVacationList.vacationEntity.location}">Location</span> -
+                    <span th:text="${userVacationList.startDate}">Start Date</span> to
+                    <span th:text="${userVacationList.endDate}">End Date</span>
+                    <p th:text="${userVacationList.notes}">Notes</p>
+                    <p th:text="${userVacationList.visited ? 'Visited' : 'Not Visited'}">Visited</p>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
