@@ -24,13 +24,13 @@ public class SecurityConfig {
     public DefaultSecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/h2-console/**", "/register", "/login", "/error", "/styles/**", "/vacations")
-                        .permitAll() // Убедитесь, что это не вызывает конфликт
+                        .requestMatchers("/h2-console/**", "/register", "/login", "/error", "/styles/**")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/vacations", true)
+                        .defaultSuccessUrl("/vacations", true) // Успешный редирект после логина
                         .permitAll()
                 )
                 .csrf(csrf -> csrf.disable())
