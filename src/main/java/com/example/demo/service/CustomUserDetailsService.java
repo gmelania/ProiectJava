@@ -1,8 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Users;
 import com.example.demo.repository.UsersRepository;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,11 +25,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         var user = users.get(0);
-        /*return User.builder()
-                .username(user.getEmail())
-                .password(user.getPassword())
-                .roles("USER")
-                .build();*/
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }

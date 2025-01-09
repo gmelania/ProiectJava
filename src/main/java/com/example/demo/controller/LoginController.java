@@ -24,21 +24,18 @@ public class LoginController {
 
     @GetMapping("/login")
     public String showLoginPage(Model model) {
-        return "login"; // Ссылка на шаблон login.html
+        return "login";
     }
 
     @PostMapping("/login")
     public RedirectView loginUser(@RequestParam String username, @RequestParam String password) {
         try {
-            // Аутентификация пользователя
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
             );
 
-            // Если успешно, перенаправляем на страницу после входа
             return new RedirectView("/vacations");
         } catch (AuthenticationException e) {
-            // Если аутентификация не удалась, перенаправляем обратно на страницу логина с ошибкой
             return new RedirectView("/login?error=invalid_credentials");
         }
     }

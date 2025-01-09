@@ -15,7 +15,6 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class RegisterController {
@@ -34,10 +33,9 @@ public class RegisterController {
     @GetMapping("/register")
     public String showRegisterPage(Model model) {
         model.addAttribute("user", new Users());
-        return "register"; // Ссылка на шаблон register.html
+        return "register";
     }
 
-    // Обработка регистрации (POST-запрос)
     @PostMapping("/register")
     public String registerUser(@ModelAttribute Users user, Model model, HttpServletRequest request) {
         try {
@@ -46,24 +44,19 @@ public class RegisterController {
                 return "register";
             }
 
-            // Кодируем пароль
             var originalPassword = user.getPassword();
             user.setPassword(passwordEncoder.encode(originalPassword));
 
-            // Сохраняем пользователя
             userService.addUser(user);
 
-            // Аутентифицируем пользователя после регистрации
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getEmail(), originalPassword)
             );
 
-            // Сохраняем аутентификацию в SecurityContext
             SecurityContext context = SecurityContextHolder.createEmptyContext();
             context.setAuthentication(auth);
             SecurityContextHolder.setContext(context);
 
-            // Принудительно сохраняем контекст в сессии
             HttpSession session = request.getSession(true);
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context);
 
@@ -73,6 +66,4 @@ public class RegisterController {
             return "register";
         }
     }
-
-
 }

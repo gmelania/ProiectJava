@@ -4,81 +4,13 @@
 <head>
     <meta charset="utf-8">
     <link th:href="@{styles/style.css}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>My Vacations</title>
-    <style>
-        /* Стили для модального окна */
-        .modal {
-            display: none; /* Скрыто по умолчанию */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0); /* Черный фон */
-            background-color: rgba(0, 0, 0, 0.4); /* Прозрачный фон */
-        }
-
-        /* Модальное окно */
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        /* Кнопка закрытия */
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* Красный фон для кнопки удаления */
-        .delete-btn {
-            background-color: red; /* Красный фон */
-            border: none;           /* Убираем обводку */
-            padding: 5px 10px;      /* Отступы */
-            cursor: pointer;       /* Курсор как указатель */
-            border-radius: 5px;     /* Округленные углы */
-            color: white;           /* Белый текст */
-        }
-
-        .delete-btn:hover {
-            background-color: darkred; /* Темный красный при наведении */
-        }
-
-        /* Красный фон для кнопки редактирования */
-        .edit-btn {
-            background-color: blue; /* Синий фон */
-            border: none;            /* Убираем обводку */
-            padding: 5px 10px;       /* Отступы */
-            cursor: pointer;        /* Курсор как указатель */
-            border-radius: 5px;      /* Округленные углы */
-            color: white;            /* Белый текст */
-        }
-
-        .edit-btn:hover {
-            background-color: darkblue; /* Темно-синий при наведении */
-        }
-
-    </style>
 </head>
 
 <body>
 <h2>Your Vacations</h2>
 <div class="container">
-    <!-- Форма для добавления нового отпуска -->
     <form action="/vacations" method="post">
         <label for="destination">Destination:</label>
         <input type="text" id="destination" name="destination" placeholder="Enter your location" required>
@@ -95,7 +27,6 @@
 
     <h3>Your Vacations:</h3>
 
-    <!-- Таблица для отображения всех отпусков -->
     <table>
         <thead>
         <tr>
@@ -115,18 +46,15 @@
             <td th:text="${userVacationList.notes}">Notes</td>
             <td th:text="${userVacationList.visited ? 'Visited' : 'Not Visited'}">Visited</td>
 
-            <!-- Столбец с кнопками для редактирования и удаления -->
             <td>
-                <!-- Кнопка редактирования -->
-                <button class="edit-btn" th:onclick="'openEditModal(' + ${userVacationList.id} + ')'">
-                    <img src="edit-icon.png" alt="Edit" width="20" height="20">
+                <button class="edit-btn" th:onclick="'openEditModal(' + ${userVacationList.id} + ')'" aria-label="Edit">
+                    <span class="material-icons">edit</span>
                 </button>
 
-                <!-- Кнопка удаления -->
                 <a th:href="@{/vacations/delete/{id}(id=${userVacationList.id})}"
                    onclick="return confirm('Are you sure you want to delete this vacation?')">
-                    <button class="delete-btn">
-                        <img src="trash-icon.png" alt="Delete" width="20" height="20">
+                    <button class="delete-btn" aria-label="Delete">
+                        <span class="material-icons">delete</span>
                     </button>
                 </a>
             </td>
@@ -135,7 +63,6 @@
     </table>
 </div>
 
-<!-- Модальное окно для редактирования -->
 <div id="editModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeEditModal()">&times;</span>
@@ -164,11 +91,9 @@
 </div>
 
 <script>
-    // Функция для открытия модального окна редактирования
     function openEditModal(vacationId) {
         document.getElementById("editModal").style.display = "block";
 
-        // Заполняем поля формы редактирования данными отпуска
         fetch('/vacations/edit/' + vacationId)
             .then(response => {
                 if (!response.ok) {
@@ -177,13 +102,9 @@
                 return response.json();
             })
             .then(data => {
-                // Проверим, что данные действительно есть
-                console.log(data);
-
-                // Заполняем форму редактирования
                 if (data) {
                     document.getElementById("vacationId").value = data.id;
-                    document.getElementById("editDestination").value = data.destination || ''; // Если данных нет, пустая строка
+                    document.getElementById("editDestination").value = data.destination || '';
                     document.getElementById("editStartDate").value = data.startDate || '';
                     document.getElementById("editEndDate").value = data.endDate || '';
                     document.getElementById("editNotes").value = data.notes || '';
@@ -217,31 +138,27 @@
             visited: visited
         };
 
-        // Отправляем данные через fetch
         fetch('/vacations', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: new URLSearchParams(data).toString() // Преобразуем данные в строку query
+            body: new URLSearchParams(data).toString()
         })
             .then(response => {
                 if (response.ok) {
-                    // Закрываем модальное окно
                     closeEditModal();
-                    location.reload(); // Перезагружаем страницу для отображения обновленных данных
+                    location.reload();
                 } else {
                     alert("Failed to update vacation!");
                 }
             });
     };
 
-    // Функция для закрытия модального окна
     function closeEditModal() {
         document.getElementById("editModal").style.display = "none";
     }
 
-    // Закрытие модального окна при клике вне его
     window.onclick = function(event) {
         if (event.target === document.getElementById("editModal")) {
             closeEditModal();

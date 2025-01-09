@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 @Configuration
 public class SecurityConfig {
@@ -24,14 +25,28 @@ public class SecurityConfig {
     public DefaultSecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/h2-console/**", "/register", "/login", "/error", "/styles/**")
-                        .permitAll()
+                        .requestMatchers("/h2-console/**", "/register", "/login", "/styles/**", "/home", "/").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/vacations", true) // Успешный редирект после логина
+                        .defaultSuccessUrl("/vacations", true)
                         .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/home")
+                        .addLogoutHandler(new SecurityContextLogoutHandler())
+                        .permitAll()
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.sendRedirect("/home");
+                        })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendRedirect("/home");
+                        })
+                        .defaultAuthenticationEntryPointFor((request, response, authException) -> response.sendRedirect("/home"), request -> true)
                 )
                 .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions().disable());
@@ -52,5 +67,4 @@ public class SecurityConfig {
                 .and()
                 .build();
     }
-
 }
